@@ -1,0 +1,23 @@
+{% extends "routes/layout.html" %}
+{% block body %}
+    <h2 class="mb-4">الرِحلات المُتاحة </h2>
+    
+    <div class="row">
+        {% for route in routes %}
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">{{ route.origin.name }} ⬅️ {{ route.destination.name }}</h5>
+                        <p class="card-text text-muted">
+                            <small>مــن: {{ route.origin.city }} | إلى: {{ route.destination.city }}</small>
+                        </p>
+                        <p class="card-text"><strong>المدة:</strong> {{ route.duration }} دقيقة</p>
+                        <a href="{% url 'routes:route_detail' route.id %}" class="btn btn-outline-primary d-block">عرض التفاصيل</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="alert alert-warning">No routes available at the moment.</div>
+        {% endfor %}
+    </div>
+{% endblock %}

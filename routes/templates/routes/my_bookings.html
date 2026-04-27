@@ -1,0 +1,27 @@
+{% extends "routes/layout.html" %}
+
+{% block body %}
+    <h2 class="mb-4">حُـجـوزاتـي الـمُـسـبـقـة </h2>
+
+    <div class="row">
+        {% for route in bookings %}
+            <div class="col-md-6 col-lg-4 mb-3">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">{{ route.origin.name }} ⬅️ {{ route.destination.name }}</h5>
+                        <p class="card-text text-muted">مدة الرحلة: {{ route.duration }} دقيقة</p>
+                        <a href="{% url 'routes:route_detail' route.id %}" class="btn btn-outline-primary btn-sm w-100">عرض التفاصيل / إلغاء</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <p class="alert alert-info">لم تقم بحجز أي رِحلة حتى الآن.</p>
+                <a href="{% url 'routes:index' %}" class="btn btn-primary">تصفح الرحلات المُتاحة</a>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="mt-4">
+        <a href="{% url 'routes:index' %}" class="btn btn-secondary">العودة إلى الصفحة الرئيسية </a>
+    </div>
+{% endblock %}

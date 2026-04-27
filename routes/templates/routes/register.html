@@ -1,0 +1,26 @@
+{% extends "routes/layout.html" %}
+
+{% block body %}
+    <h2>إنشاء حساب جديد</h2>
+
+    {% if message %}
+        <div style="color: red; margin-bottom: 10px;">{{ message }}</div>
+    {% endif %}
+
+    <form action="{% url 'routes:register' %}" method="post">
+        {% csrf_token %}
+        <div style="margin-bottom: 10px;">
+            <input autofocus class="form-control" type="text" name="username" placeholder="اسم المستخدم">
+        </div>
+        <div style="margin-bottom: 10px;">
+            <input class="form-control" type="password" name="password" placeholder="كلمة المرور">
+        </div>
+        <div style="margin-bottom: 10px;">
+            <input class="form-control" type="password" name="confirmation" placeholder="تأكيد كلمة المرور">
+        </div>
+        <input class="btn btn-success" type="submit" value="إنشاء الحساب">
+    </form>
+    
+    <hr>
+    <p>لديك حساب بالفعل؟ <a href="{% url 'routes:login' %}">سجل الدخول هنا</a>.</p>
+{% endblock %}

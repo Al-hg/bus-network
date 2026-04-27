@@ -1,0 +1,44 @@
+{% extends "routes/layout.html" %}
+
+{% block body %}
+    <h1>تفاصيل الرحلة</h1>
+    
+    <ul>
+        <li><strong>محطة الانطلاق:</strong> {{ route.origin.name }} ({{ route.origin.city }})</li>
+        <li><strong>محطة الوصول:</strong> {{ route.destination.name }} ({{ route.destination.city }})</li>
+        <li><strong>مدة الرحلة:</strong> {{ route.duration }} دقيقة</li>
+    </ul>
+
+    <hr>
+
+    <h2>قائمة الركاب</h2>
+    <ul>
+        {% for passenger in passengers %}
+            <li>{{ passenger.username }}</li>
+        {% empty %}
+            <li>لا يوجد ركاب في هذه الرحلة حتى الآن.</li>
+        {% endfor %}
+    </ul>
+    
+    <br>
+    <hr>
+    
+    {% if user.is_authenticated %}
+        {% if is_booked %}
+            <form action="{% url 'routes:unbook' route.id %}" method="post">
+                {% csrf_token %}
+                <input type="submit" class="btn btn-danger" value="إلغاء الحجز">
+            </form>
+        {% else %}
+            <form action="{% url 'routes:book' route.id %}" method="post">
+                {% csrf_token %}
+                <input type="submit" class="btn btn-success" value="حجز مقعد">
+            </form>
+        {% endif %}
+    {% else %}
+        <p class="text-muted"><a href="{% url 'routes:login' %}">سجل الدخول</a> لتتمكن من حجز مقعد في هذه الرحلة.</p>
+    {% endif %}
+    <br>
+    <a href="{% url 'routes:index' %}">العودة إلى الصفحة الرئيسية</a>
+
+{% endblock %}
